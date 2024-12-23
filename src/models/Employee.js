@@ -1,13 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
-
-// Conexión a la base de datos
-const sequelize = new Sequelize("cmp", "postgres", "dbcmp-2024", {
-  host: "localhost",
-  dialect: "postgres",
-});
+import { orm } from "../config/orm.js";
+import { DataTypes} from "sequelize";
 
 // Modelo de usuario
-export const Employee = sequelize.define("employees", {
+export const Employee = orm.define("employees", {
   id: {
     primaryKey: true,
     autoIncrementIdentity:true,
@@ -16,7 +11,7 @@ export const Employee = sequelize.define("employees", {
     unique: true,
   },
   cedula: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
     unique: true,
   },

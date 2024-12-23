@@ -1,9 +1,10 @@
 import express from "express";
 import EmployeeApi from "./api/Employee.js";
 import { configServer as config } from "./config/envairoments.js";
-import "./boot/sync_database.js";
+import {runDatabase} from "./boot/sync_database.js";
 
 const app = express();
+runDatabase();
 
 //Routes
 app.use(EmployeeApi);
