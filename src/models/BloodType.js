@@ -1,9 +1,9 @@
 import { sequelize } from "../database/sequelize.js";
 import { DataTypes} from "sequelize";
-import { Employee } from "./Employee.js";
+
 
 // Modelo de usuario
-export const Nationality = sequelize.define("nacionalidades", {
+export const BloodType = sequelize.define("tipo_sagre", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,7 +11,7 @@ export const Nationality = sequelize.define("nacionalidades", {
     allowNull: false,
     unique: true,
   },
-  nombre: {
+  tipo: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -20,7 +20,3 @@ export const Nationality = sequelize.define("nacionalidades", {
 },{
     timestamps: false,
 });
-
-// Nationality.hasMany(Employee, {
-//   foreignKey: 'nacionalidadId'
-// });
