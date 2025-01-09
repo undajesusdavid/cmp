@@ -17,6 +17,8 @@ EmployeeApi.get("/api/employee/registrar", async (req, res) => {
     apellido: "Unda",
     genero: "M",
     estado: "S",
+    fecha_nac: "1995-03-12",
+    nacionalidadId: "1"
   });
   console.log("jesus's auto-generated ID:", jesus.id);
   res.json("Empleado registrado");

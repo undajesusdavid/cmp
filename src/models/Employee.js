@@ -1,8 +1,9 @@
-import { orm } from "../config/orm.js";
+import { sequelize } from "../database/sequelize.js";
 import { DataTypes} from "sequelize";
+import { Nationality } from "./Nationality.js";
 
 // Modelo de usuario
-export const Employee = orm.define("employees", {
+export const Employee = sequelize.define("empleados", {
   id: {
     primaryKey: true,
     autoIncrementIdentity:true,
@@ -31,4 +32,14 @@ export const Employee = orm.define("employees", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  fecha_nac: {
+    type: DataTypes.DATE,
+    allowNull: false, 
+  },
+  nacionalidadId: {
+    type: DataTypes.INTEGER,
+    allowNull: false, 
+  }
 });
+
+Employee.belongsTo(Nationality)
