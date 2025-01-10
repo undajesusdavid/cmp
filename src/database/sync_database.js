@@ -6,6 +6,7 @@ import "../models/BloodType.js";
 import "../models/AcademicLevel.js";
 import "../models/Employee.js";
 import "../models/EmployeeSizes.js";
+import "../models/EmployeeFamily.js";
 import buildNationality from "./buildNationality.js";
 import buildTypeHousing from "./buildTypeHousing.js";
 import buildCondHousing from "./buildCondHousing.js";
@@ -15,6 +16,22 @@ import buildProfession from "./buildProfession.js";
 import buildStaffType from "./buildStaffType.js";
 import buildJobPosition from "./buildJobPosition.js";
 import buildDepartment from "./buildDepartment.js";
+
+
+
+import FamilyRelationship  from "../models/metadata/FamilyRelationship.js";
+import parentesco from "./metadata/parentesco.js";
+
+
+
+const loadDataIntoDB = async (model,data) => {
+  if ((await model.count()) != data.length) {
+    data.forEach(
+      async (field) =>
+        await model.findOrCreate({ where: field })
+    );
+  }
+}
 
 export const runDatabase = async () => {
   try {
@@ -28,6 +45,7 @@ export const runDatabase = async () => {
     await buildStaffType();
     await buildJobPosition();
     await buildDepartment();
+    await loadDataIntoDB(FamilyRelationship,parentesco);
     console.log("base de datos conectada");
   } catch (error) {
     console.log("No se pudo sincronizar la base de datos");

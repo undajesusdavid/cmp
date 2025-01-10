@@ -1,15 +1,7 @@
 import { Router } from "express";
 import { Employee } from "../models/Employee.js";
-import { Nationality } from "../models/Nationality.js";
-import { CondHousing } from "../models/CondHousing.js";
-import { TypeHousing } from "../models/TypeHousing.js";
-import { BloodType } from "../models/BloodType.js";
-import { AcademicLevel } from "../models/AcademicLevel.js";
-import { Profession } from "../models/Profession.js";
-import { StaffType } from "../models/StaffType.js";
-import { JobPosition } from "../models/JobPosition.js";
-import { Department } from "../models/Department.js";
 import { EmployeeSizes } from "../models/EmployeeSizes.js";
+import { EmployeeFamily } from "../models/EmployeeFamily.js";
 
 const EmployeeApi = Router();
 
@@ -25,6 +17,7 @@ EmployeeApi.get("/api/employee/list", async (req, res) => {
       "tipo_personal",
       "cargo",
       "departamento",
+      "familiares",
       {
         association: "tallas",
         attributes: ["id","zapato", "camisa", "pantalon"]
@@ -79,6 +72,16 @@ EmployeeApi.get("/api/employee/registrar", async (req, res) => {
     pantalon: "30",
     camisa:"M",
     zapato: "42"
+  })
+
+  await EmployeeFamily.create({
+    empleado_id:  jesus.getDataValue("id"),
+    parentesco_id: 1,
+    nombre: "Lernis Yasmin",
+    apellido: "Gil Alvarado",
+    cedula: "V15986356",
+    fec_nac: "06-10-1985"
+
   })
 
   console.log("jesus's auto-generated ID:", jesus.id);
