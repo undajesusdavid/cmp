@@ -1,8 +1,9 @@
 import { sequelize } from "../database/sequelize.js";
 import { DataTypes} from "sequelize";
 
+
 // Modelo de usuario
-export const Nationality = sequelize.define("nacionalidades", {
+export const AcademicLevel = sequelize.define("niveles_academicos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -10,7 +11,7 @@ export const Nationality = sequelize.define("nacionalidades", {
     allowNull: false,
     unique: true,
   },
-  nombre: {
+  nivel: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -19,5 +20,3 @@ export const Nationality = sequelize.define("nacionalidades", {
 },{
     timestamps: false,
 });
-
-

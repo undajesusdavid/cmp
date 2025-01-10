@@ -1,8 +1,9 @@
 import { sequelize } from "../database/sequelize.js";
 import { DataTypes} from "sequelize";
 
+
 // Modelo de usuario
-export const Nationality = sequelize.define("nacionalidades", {
+export const JobPosition = sequelize.define("cargos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -19,5 +20,3 @@ export const Nationality = sequelize.define("nacionalidades", {
 },{
     timestamps: false,
 });
-
-
