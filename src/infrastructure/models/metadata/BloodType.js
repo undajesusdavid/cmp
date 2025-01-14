@@ -1,9 +1,9 @@
-import { sequelize } from "../database/sequelize.js";
+import { sequelize } from "../../database/sequelize.js";
 import { DataTypes} from "sequelize";
 
 
 // Modelo de usuario
-export const Department = sequelize.define("departamentos", {
+export const BloodType = sequelize.define("tipo_sagre", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,7 +11,7 @@ export const Department = sequelize.define("departamentos", {
     allowNull: false,
     unique: true,
   },
-  nombre: {
+  tipo: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,

@@ -17,7 +17,10 @@ EmployeeApi.get("/api/employee/list", async (req, res) => {
       "tipo_personal",
       "cargo",
       "departamento",
-      "familiares",
+      {
+        association: "familiares",
+        include: ["parentesco"]
+      },
       {
         association: "tallas",
         attributes: ["id","zapato", "camisa", "pantalon"]
@@ -76,11 +79,20 @@ EmployeeApi.get("/api/employee/registrar", async (req, res) => {
 
   await EmployeeFamily.create({
     empleado_id:  jesus.getDataValue("id"),
-    parentesco_id: 1,
+    parentesco_id: 2,
     nombre: "Lernis Yasmin",
     apellido: "Gil Alvarado",
     cedula: "V15986356",
     fec_nac: "06-10-1985"
+
+  })
+  await EmployeeFamily.create({
+    empleado_id:  jesus.getDataValue("id"),
+    parentesco_id: 1,
+    nombre: "Williams Jose",
+    apellido: "Unda Dorante",
+    cedula: "V10396585",
+    fec_nac: "8-12-1965"
 
   })
 

@@ -1,6 +1,4 @@
-import { JobPosition } from "../models/JobPosition.js";
-
-const data = [
+export default [
   {
     id: 1,
     nombre: "CONTRALOR",
@@ -70,12 +68,3 @@ const data = [
     nombre: "SEGURIDAD",
   },
 ];
-
-export default async function buildJobPosition() {
-  if ((await JobPosition.count()) != data.length) {
-    data.forEach(
-      async (cargo) =>
-        await JobPosition.findOrCreate({ where: cargo })
-    );
-  }
-}

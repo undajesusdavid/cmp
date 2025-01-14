@@ -1,14 +1,14 @@
 import { sequelize } from "../database/sequelize.js";
 import { DataTypes } from "sequelize";
-import { Nationality } from "./Nationality.js";
-import { TypeHousing } from "./TypeHousing.js";
-import { CondHousing } from "./CondHousing.js";
-import { BloodType } from "./BloodType.js";
-import { AcademicLevel } from "./AcademicLevel.js";
-import { Profession } from "./Profession.js";
-import { StaffType } from "./StaffType.js";
-import { JobPosition } from "./JobPosition.js";
-import { Department } from "./Department.js";
+import Nationality from "./metadata/Nationality.js";
+import TypeHousing from "./metadata/TypeHousing.js";
+import CondHousing from "./metadata/CondHousing.js";
+import { BloodType } from "./metadata/BloodType.js";
+import { AcademicLevel } from "./metadata/AcademicLevel.js";
+import { Profession } from "./metadata/Profession.js";
+import { StaffType } from "./metadata/StaffType.js";
+import { JobPosition } from "./metadata/JobPosition.js";
+import { Department } from "./metadata/Department.js";
 // Modelo de usuario
 export const Employee = sequelize.define("empleados", {
   id: {
@@ -101,22 +101,40 @@ export const Employee = sequelize.define("empleados", {
   codigo_carnet_patria: {
     type: DataTypes.STRING,
     allowNull: true,
-    
   },
   serial_carnet_patria: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  
 });
 
-Employee.belongsTo(Nationality, { foreignKey: "nacionalidad_id", as: "nacionalidad" });
-Employee.belongsTo(TypeHousing, { foreignKey: "tipo_vivienda_id", as: "tipo_vivienda" });
-Employee.belongsTo(CondHousing, { foreignKey: "condicion_vivienda_id", as: "cond_vivienda" });
-Employee.belongsTo(BloodType, { foreignKey: "tipo_sangre_id", as: "tipo_sangre" });
-Employee.belongsTo(AcademicLevel, { foreignKey: "nivel_academico_id", as: "nivel_academico" });
+Employee.belongsTo(Nationality, {
+  foreignKey: "nacionalidad_id",
+  as: "nacionalidad",
+});
+Employee.belongsTo(TypeHousing, {
+  foreignKey: "tipo_vivienda_id",
+  as: "tipo_vivienda",
+});
+Employee.belongsTo(CondHousing, {
+  foreignKey: "condicion_vivienda_id",
+  as: "cond_vivienda",
+});
+Employee.belongsTo(BloodType, {
+  foreignKey: "tipo_sangre_id",
+  as: "tipo_sangre",
+});
+Employee.belongsTo(AcademicLevel, {
+  foreignKey: "nivel_academico_id",
+  as: "nivel_academico",
+});
 Employee.belongsTo(Profession, { foreignKey: "profesion_id", as: "profesion" });
-Employee.belongsTo(StaffType, { foreignKey: "tipo_personal_id", as: "tipo_personal" });
+Employee.belongsTo(StaffType, {
+  foreignKey: "tipo_personal_id",
+  as: "tipo_personal",
+});
 Employee.belongsTo(JobPosition, { foreignKey: "cargo_id", as: "cargo" });
-Employee.belongsTo(Department, { foreignKey: "dir_adscrita_id", as: "departamento" });
-
+Employee.belongsTo(Department, {
+  foreignKey: "dir_adscrita_id",
+  as: "departamento",
+});

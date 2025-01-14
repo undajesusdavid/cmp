@@ -1,9 +1,8 @@
-import { sequelize } from "../database/sequelize.js";
+import { sequelize } from "../../database/sequelize.js";
 import { DataTypes} from "sequelize";
 
-
 // Modelo de usuario
-export const CondHousing = sequelize.define("condicion_viviendas", {
+const Nationality = sequelize.define("nacionalidades", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,7 +10,7 @@ export const CondHousing = sequelize.define("condicion_viviendas", {
     allowNull: false,
     unique: true,
   },
-  condicion: {
+  nombre: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -20,3 +19,5 @@ export const CondHousing = sequelize.define("condicion_viviendas", {
 },{
     timestamps: false,
 });
+
+export default Nationality;

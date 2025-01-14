@@ -1,6 +1,4 @@
-import { Department } from "../models/Department.js";
-
-const data = [
+export default [
   {
     id: 1,
     nombre: "CGR",
@@ -38,12 +36,3 @@ const data = [
     nombre: "DIR. CONTROL POSTERIOR",
   },
 ];
-
-export default async function buildDepartment() {
-  if ((await Department.count()) != data.length) {
-    data.forEach(
-      async (department) =>
-        await Department.findOrCreate({ where: department })
-    );
-  }
-}

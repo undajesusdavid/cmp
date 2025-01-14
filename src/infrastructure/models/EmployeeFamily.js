@@ -14,11 +14,6 @@ export const EmployeeFamily = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    parentesco: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: false,
-    },
     nombre: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -50,11 +45,11 @@ EmployeeFamily.belongsTo(Employee, {
   foreignKey: "empleado_id",
   as: "empleado",
 });
-Employee.hasOne(EmployeeFamily, { foreignKey: "empleado_id", as: "familiares" });
+Employee.hasMany(EmployeeFamily, { foreignKey: "empleado_id", as: "familiares" });
 
 EmployeeFamily.belongsTo(FamilyRelationship, {
   foreignKey: "parentesco_id",
-  as: "parentescos",
+  as: "parentesco",
 });
 
 FamilyRelationship.hasMany(EmployeeFamily, {

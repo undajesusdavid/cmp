@@ -1,9 +1,9 @@
-import { sequelize } from "../database/sequelize.js";
+import { sequelize } from "../../database/sequelize.js";
 import { DataTypes} from "sequelize";
 
 
 // Modelo de usuario
-export const TypeHousing = sequelize.define("tipo_viviendas", {
+export const AcademicLevel = sequelize.define("niveles_academicos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,7 +11,7 @@ export const TypeHousing = sequelize.define("tipo_viviendas", {
     allowNull: false,
     unique: true,
   },
-  tipo: {
+  nivel: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
