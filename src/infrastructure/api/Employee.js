@@ -28,10 +28,7 @@ EmployeeApi.get("/api/employee/list", async (req, res) => {
     ],
   });
 
-  const tallas = await EmployeeSizes.findAll({
-    include: [{model: Employee, attributes: ["cedula","nombre","apellido"]}],
-  });
-  res.json({employees,tallas});
+  res.json(employees);
 });
 
 EmployeeApi.get("/api/employee/registrar", async (req, res) => {

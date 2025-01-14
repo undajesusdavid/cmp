@@ -13,7 +13,7 @@ const loadDataIntoDB = async (model, data) => {
 
 export const runDatabase = async () => {
   try {
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     metadata.forEach(
       async (source) => await loadDataIntoDB(source.table, source.data)
     );

@@ -1,9 +1,23 @@
 import express from "express";
+import cors from "cors";
 import EmployeeApi from "./api/Employee.js";
 import { configServer as config } from "./config/envairoments.js";
 import {runDatabase} from "./database/sync_database.js";
 
 const app = express();
+
+//Configuracion cors
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: ["GET", "POST", "UPDATE", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true,
+}
+
+//Middlewares
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 
 if(config.NODE_ENV == "development"){
   runDatabase();
