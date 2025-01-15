@@ -1,8 +1,15 @@
 import { sequelize } from "./sequelize.js";
 
+//MODELOS DE EMPLEADO
 import "../models/Employee.js";
 import "../models/EmployeeSizes.js";
 import "../models/EmployeeFamily.js";
+import "../models/EmployeeVehicle.js";
+
+//MODELOS DE USUARIO
+import "../models/User.js";
+//REGISTRO DE METADATOS
+
 import metadata from "./metadata/Register.js";
 
 const loadDataIntoDB = async (model, data) => {
@@ -13,7 +20,7 @@ const loadDataIntoDB = async (model, data) => {
 
 export const runDatabase = async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     metadata.forEach(
       async (source) => await loadDataIntoDB(source.table, source.data)
     );

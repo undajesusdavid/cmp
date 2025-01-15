@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Employee } from "../models/Employee.js";
 import { EmployeeSizes } from "../models/EmployeeSizes.js";
 import { EmployeeFamily } from "../models/EmployeeFamily.js";
+import { EmployeeVehicle } from "../models/EmployeeVehicle.js";
 
 const EmployeeApi = Router();
 
@@ -17,6 +18,7 @@ EmployeeApi.get("/api/employee/list", async (req, res) => {
       "tipo_personal",
       "cargo",
       "departamento",
+      "vehiculos",
       {
         association: "familiares",
         include: ["parentesco"]
@@ -31,7 +33,7 @@ EmployeeApi.get("/api/employee/list", async (req, res) => {
   res.json(employees);
 });
 
-EmployeeApi.get("/api/employee/registrar", async (req, res) => {
+EmployeeApi.get("/api/employee/register", async (req, res) => {
   // Create a new employee
   const jesus = await Employee.create({
     cedula: "V25606211",
@@ -91,6 +93,14 @@ EmployeeApi.get("/api/employee/registrar", async (req, res) => {
     cedula: "V10396585",
     fec_nac: "8-12-1965"
 
+  })
+
+  await EmployeeVehicle.create({
+    empleado_id:  jesus.getDataValue("id"),
+    marca: "TOYOTA",
+    modelo: "COROLLA",
+    anio: "1999",
+    color: "GRIS",
   })
 
   console.log("jesus's auto-generated ID:", jesus.id);

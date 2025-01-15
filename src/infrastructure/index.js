@@ -3,6 +3,7 @@ import cors from "cors";
 import EmployeeApi from "./api/Employee.js";
 import { configServer as config } from "./config/envairoments.js";
 import {runDatabase} from "./database/sync_database.js";
+import UserApi from "./api/Users.js";
 
 const app = express();
 
@@ -25,7 +26,8 @@ if(config.NODE_ENV == "development"){
 
 
 //Routes
-app.use(EmployeeApi);
+app.use([EmployeeApi, UserApi]);
+
 
 app.get("/", async (req, res) => {
   res.json("Servidor Corriendo");
