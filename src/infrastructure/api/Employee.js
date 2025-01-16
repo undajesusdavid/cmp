@@ -3,6 +3,7 @@ import { Employee } from "../models/Employee.js";
 import { EmployeeSizes } from "../models/EmployeeSizes.js";
 import { EmployeeFamily } from "../models/EmployeeFamily.js";
 import { EmployeeVehicle } from "../models/EmployeeVehicle.js";
+import { User } from "../models/User.js";
 
 const EmployeeApi = Router();
 
@@ -19,13 +20,14 @@ EmployeeApi.get("/api/employee/list", async (req, res) => {
       "cargo",
       "departamento",
       "vehiculos",
+      "usuario",
       {
         association: "familiares",
-        include: ["parentesco"]
+        include: ["parentesco"],
       },
       {
         association: "tallas",
-        attributes: ["id","zapato", "camisa", "pantalon"]
+        attributes: ["id", "zapato", "camisa", "pantalon"],
       },
     ],
   });
@@ -72,36 +74,44 @@ EmployeeApi.get("/api/employee/register", async (req, res) => {
   await EmployeeSizes.create({
     empleado_id: jesus.getDataValue("id"),
     pantalon: "30",
-    camisa:"M",
-    zapato: "42"
-  })
+    camisa: "M",
+    zapato: "42",
+  });
 
   await EmployeeFamily.create({
-    empleado_id:  jesus.getDataValue("id"),
+    empleado_id: jesus.getDataValue("id"),
     parentesco_id: 2,
     nombre: "Lernis Yasmin",
     apellido: "Gil Alvarado",
     cedula: "V15986356",
-    fec_nac: "06-10-1985"
-
-  })
+    fec_nac: "06-10-1985",
+  });
   await EmployeeFamily.create({
-    empleado_id:  jesus.getDataValue("id"),
+    empleado_id: jesus.getDataValue("id"),
     parentesco_id: 1,
     nombre: "Williams Jose",
     apellido: "Unda Dorante",
     cedula: "V10396585",
-    fec_nac: "8-12-1965"
-
-  })
+    fec_nac: "8-12-1965",
+  });
 
   await EmployeeVehicle.create({
-    empleado_id:  jesus.getDataValue("id"),
+    empleado_id: jesus.getDataValue("id"),
     marca: "TOYOTA",
     modelo: "COROLLA",
     anio: "1999",
     color: "GRIS",
-  })
+  });
+
+  await User.create({
+    username: "undajesusdavid",
+    password: "1573837",
+    empleado_id: jesus.getDataValue("id"),
+  });
+  await User.create({
+    username: "marialucena",
+    password: "megan123",
+  });
 
   console.log("jesus's auto-generated ID:", jesus.id);
   res.json("Empleado registrado");

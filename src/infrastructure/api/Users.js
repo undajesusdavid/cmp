@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-
 const UserApi = Router();
 
 UserApi.get("/api/user/list", async (req, res) => {
@@ -8,6 +7,7 @@ UserApi.get("/api/user/list", async (req, res) => {
 });
 
 UserApi.get("/api/user/register", async (req, res) => {
+   
     res.json("usuario registrado");
 });
 
