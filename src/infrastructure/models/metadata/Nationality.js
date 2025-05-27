@@ -1,23 +1,24 @@
 import { sequelize } from "../../database/sequelize.js";
-import { DataTypes} from "sequelize";
+import { DataTypes } from "sequelize";
 
 // Modelo de usuario
-const Nationality = sequelize.define("nacionalidades", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-    unique: true,
+export const Nationality = sequelize.define(
+  "nacionalidades",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+      unique: true,
+    },
+    nombre: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
   },
-  nombre: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  }
-  
-},{
+  {
     timestamps: false,
-});
-
-export default Nationality;
+  }
+);

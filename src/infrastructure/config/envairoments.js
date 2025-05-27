@@ -2,6 +2,10 @@ import { configDotenv } from "dotenv";
 
 configDotenv();
 
+export const configCors = {
+  origin: process.env.URL_WEB_CLIENT,
+};
+
 export const configServer = {
   NODE_ENV: process.env.NODE_ENV || "development",
   HOST: process.env.HOST || "127.0.0.1",

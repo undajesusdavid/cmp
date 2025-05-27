@@ -1,4 +1,4 @@
-import Nationality from "../../models/metadata/Nationality.js";
+import {Nationality} from "../../models/metadata/Nationality.js";
 import nacionalidad from "./nacionalidad.js";
 
 import TypeHousing from "../../models/metadata/TypeHousing.js";

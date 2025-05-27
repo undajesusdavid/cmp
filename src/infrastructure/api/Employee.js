@@ -4,11 +4,23 @@ import { EmployeeSizes } from "../models/EmployeeSizes.js";
 import { EmployeeFamily } from "../models/EmployeeFamily.js";
 import { EmployeeVehicle } from "../models/EmployeeVehicle.js";
 import { User } from "../models/User.js";
+import authenticateToken from "../middleware/auth.js";
+import bcrypt from "bcryptjs";
 
 const EmployeeApi = Router();
 
-EmployeeApi.get("/api/employee/list", async (req, res) => {
+EmployeeApi.get("/api/employee/list", authenticateToken, async (req, res) => {
   const employees = await Employee.findAll({
+    include: ["cargo", "departamento"],
+  });
+
+  res.json(employees);
+});
+
+EmployeeApi.get("/api/employee/get", authenticateToken, async (req, res) => {
+  const id = req.query.id;
+  const employee = await Employee.findOne({
+    where: { id: id },
     include: [
       "nacionalidad",
       "tipo_vivienda",
@@ -31,90 +43,90 @@ EmployeeApi.get("/api/employee/list", async (req, res) => {
       },
     ],
   });
-
-  res.json(employees);
+  res.json(employee);
 });
 
-EmployeeApi.get("/api/employee/register", async (req, res) => {
-  // Create a new employee
-  const jesus = await Employee.create({
-    cedula: "V25606211",
-    rif: "V25606211-5",
-    nombre: "Jesus",
-    apellido: "Unda",
-    genero: "M",
-    estado_civil: "S",
-    num_hijos: 0,
-    lugar_nac: "ACARIGUA",
-    fecha_nac: "1995-03-12",
-    altura: 1.8,
-    peso: 72.0,
-    dir_habitacion:
-      "Urb. Los cortijos sector 9 vereda 19 casa nro 03 Acarigua Portuguesa",
-    tlf_habitacion: "0255-1573837",
-    tlf_movil: "0412-5265934",
-    correo: "undajesusdavid@gmail.com",
-    fec_ingreso_admin_pub: "2023-04-15",
-    fec_ingreso_inst: "2024-05-30",
-    conadpis: false,
-    tiene_carnet_patria: true,
-    codigo_carnet_patria: "9658362",
-    serial_carnet_patria: "0010619816",
-    nacionalidad_id: "1",
-    tipo_vivienda_id: "1",
-    condicion_vivienda_id: "1",
-    tipo_sangre_id: "1",
-    nivel_academico_id: "3",
-    profesion_id: "6",
-    tipo_personal_id: "12",
-    cargo_id: "9",
-    dir_adscrita_id: "8",
-  });
+EmployeeApi.post(
+  "/api/employee/register",
+  authenticateToken,
+  async (req, res) => {
+    // Create a new employee
+    const data = req.body;
+    console.log(data);
 
-  await EmployeeSizes.create({
-    empleado_id: jesus.getDataValue("id"),
-    pantalon: "30",
-    camisa: "M",
-    zapato: "42",
-  });
+    const employee = await Employee.create({
+      cedula: data.cedula,
+      rif: data.rif,
+      nombre: data.nombre,
+      apellido: data.apellido,
+      genero: data.genero,
+      fecha_nac: Date(data.fecha_nac),
+      lugar_nac: data.lugar_nac,
+      altura: parseFloat(data.altura),
+      peso: parseFloat(data.peso),
+      estado_civil: data.estado_civil,
+      num_hijos: parseInt(data.num_hijos),
+      dir_habitacion: data.dir_habitacion,
+      correo: data.correo,
+      tlf_habitacion: data.tlf_habitacion,
+      tlf_movil: data.tlf_movil,
+      fec_ingreso_admin_pub: Date(data.fec_ingreso_admin_pub),
+      fec_ingreso_inst: Date(data.fec_ingreso_inst),
+      conadpis: data.conadpis,
+      tiene_carnet_patria: data.tiene_carnet_patria,
+      codigo_carnet_patria: data.codigo_carnet_patria,
+      serial_carnet_patria: data.serial_carnet_patria,
 
-  await EmployeeFamily.create({
-    empleado_id: jesus.getDataValue("id"),
-    parentesco_id: 2,
-    nombre: "Lernis Yasmin",
-    apellido: "Gil Alvarado",
-    cedula: "V15986356",
-    fec_nac: "06-10-1985",
-  });
-  await EmployeeFamily.create({
-    empleado_id: jesus.getDataValue("id"),
-    parentesco_id: 1,
-    nombre: "Williams Jose",
-    apellido: "Unda Dorante",
-    cedula: "V10396585",
-    fec_nac: "8-12-1965",
-  });
+      nacionalidad_id: data.nacionalidad_id,
+      nivel_academico_id: data.nivel_academico_id,
+      profesion_id: data.profesion_id,
+      tipo_personal_id: data.tipo_personal_id,
+      cargo_id: data.cargo_id,
+      dir_adscrita_id: data.dir_adscrita_id,
+      tipo_vivienda_id: data.tipo_vivienda_id,
+      condicion_vivienda_id: data.condicion_vivienda_id,
+      tipo_sangre_id: data.tipo_sangre_id,
+    });
 
-  await EmployeeVehicle.create({
-    empleado_id: jesus.getDataValue("id"),
-    marca: "TOYOTA",
-    modelo: "COROLLA",
-    anio: "1999",
-    color: "GRIS",
-  });
+    await EmployeeSizes.create({
+      empleado_id: employee.getDataValue("id"),
+      pantalon: data.pantalon,
+      camisa: data.camisa,
+      zapato: data.zapato,
+    });
 
-  await User.create({
-    username: "undajesusdavid",
-    password: "1573837",
-    empleado_id: jesus.getDataValue("id"),
-  });
-  await User.create({
-    username: "marialucena",
-    password: "megan123",
-  });
+    /*
+    if (data.familiares.lenght > 0) {
+      data.familiares.forEach(async (fam) => {
+        await EmployeeFamily.create({
+          empleado_id: employee.getDataValue("id"),
+          parentesco_id: fam.parentesco_id,
+          nombre: fam.nombre,
+          apellido: fam.apellido,
+          cedula: fam.cedula,
+          fec_nac: fam.fec_nac,
+        });
+      });
+    }*/
 
-  console.log("jesus's auto-generated ID:", jesus.id);
-  res.json("Empleado registrado");
-});
+    /*data.vehiculos.forEach(async (veh) => {
+      await EmployeeVehicle.create({
+        empleado_id: employee.getDataValue("id"),
+        marca: veh.marca,
+        modelo: veh.modelo,
+        anio: veh.anio,
+        color: veh.color,
+      });
+    });
+
+    await User.create({
+      username: username,
+      password: await bcrypt.hash(password, 10),
+      empleado_id: employee.getDataValue("id"),
+    });*/
+
+    res.json(employee);
+  }
+);
 
 export default EmployeeApi;

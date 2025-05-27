@@ -1,6 +1,6 @@
 import { sequelize } from "../database/sequelize.js";
 import { DataTypes } from "sequelize";
-import Nationality from "./metadata/Nationality.js";
+import {Nationality} from "./metadata/Nationality.js";
 import TypeHousing from "./metadata/TypeHousing.js";
 import CondHousing from "./metadata/CondHousing.js";
 import { BloodType } from "./metadata/BloodType.js";
