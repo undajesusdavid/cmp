@@ -1,4 +1,4 @@
-import {Nationality} from "../../models/metadata/Nationality.js";
+import { Nationality } from "../../models/metadata/Nationality.js";
 import nacionalidad from "./nacionalidad.js";
 
 import TypeHousing from "../../models/metadata/TypeHousing.js";
@@ -28,6 +28,9 @@ import nivelAcademico from "./nivel_academico.js";
 import FamilyRelationship from "../../models/metadata/FamilyRelationship.js";
 import parentesco from "./parentesco.js";
 
+import {User} from "../../models/User.js";
+import users from "./user.js";
+
 export default [
   { table: Nationality, data: nacionalidad },
   { table: TypeHousing, data: tipo_casa },
@@ -39,4 +42,5 @@ export default [
   { table: Department, data: departamento },
   { table: AcademicLevel, data: nivelAcademico },
   { table: FamilyRelationship, data: parentesco },
+  { table: User, data: users },
 ];
