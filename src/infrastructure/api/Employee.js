@@ -3,7 +3,7 @@ import { Employee } from "../models/Employee.js";
 import { EmployeeSizes } from "../models/EmployeeSizes.js";
 import { EmployeeFamily } from "../models/EmployeeFamily.js";
 import { EmployeeVehicle } from "../models/EmployeeVehicle.js";
-import { User } from "../models/User.js";
+import User  from "../models/User.js";
 import authenticateToken from "../middleware/auth.js";
 import bcrypt from "bcryptjs";
 

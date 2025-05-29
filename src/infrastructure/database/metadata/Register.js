@@ -28,8 +28,17 @@ import nivelAcademico from "./nivel_academico.js";
 import FamilyRelationship from "../../models/metadata/FamilyRelationship.js";
 import parentesco from "./parentesco.js";
 
-import {User} from "../../models/User.js";
+import User from "../../models/User.js";
 import users from "./user.js";
+
+import Roles from "../../models/Roles.js";
+import roles from "./roles.js";
+
+import Permission from "../../models/Permission.js";
+import permisos from "./permisos.js";
+
+import UsersRoles from "../../models/UsersRoles.js";
+import usuarios_roles from "./usuarios_roles.js";
 
 export default [
   { table: Nationality, data: nacionalidad },
@@ -43,4 +52,7 @@ export default [
   { table: AcademicLevel, data: nivelAcademico },
   { table: FamilyRelationship, data: parentesco },
   { table: User, data: users },
+  { table: Roles, data: roles },
+  { table: Permission, data: permisos },
+  { table: UsersRoles, data: usuarios_roles },
 ];

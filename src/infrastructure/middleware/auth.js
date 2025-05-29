@@ -7,8 +7,6 @@ function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Obtener el token después de 'Bearer'
 
-  console.log(token);
-
   if (token == null) {
     return res
       .status(401)

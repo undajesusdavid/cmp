@@ -1,35 +1,32 @@
 import { sequelize } from "../database/sequelize.js";
 import { DataTypes } from "sequelize";
-import Roles from "./Roles.js";
-import {Employee} from "./Employee.js"
 
-const User = sequelize.define("usuarios", {
+export const Permission = sequelize.define("permisos", {
   id: {
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    autoIncrement: true,
     allowNull: false,
     unique: true,
   },
-  username: {
+  nombre: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  password: {
+  descripcion: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: false,
   },
 });
 
-User.belongsTo(Employee, {
+/*User.belongsTo(Employee, {
   foreignKey: "empleado_id",
   allowNull: true,
   unique: true,
   as: "empleado",
 });
-Employee.hasOne(User, { foreignKey: "empleado_id", as: "usuario" });
+Employee.hasOne(User, { foreignKey: "empleado_id", as: "usuario" });*/
 
-
-export default User;
+export default Permission;

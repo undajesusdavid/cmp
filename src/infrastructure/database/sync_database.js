@@ -7,7 +7,7 @@ import "../models/EmployeeFamily.js";
 import "../models/EmployeeVehicle.js";
 
 //MODELOS DE USUARIO
-import "../models/User.js";
+
 //REGISTRO DE METADATOS
 
 import metadata from "./metadata/Register.js";

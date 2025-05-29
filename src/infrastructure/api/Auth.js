@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { User } from "../models/User.js";
+import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const AuthApi = Router();
 
 AuthApi.post("/api/login", async (req, res) => {
-    console.log(req.body);
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
   if (!username || !password) {
     return res
@@ -17,7 +16,7 @@ AuthApi.post("/api/login", async (req, res) => {
 
   // Buscar el usuario
   const user = await User.findOne({
-    where: { username: username},
+    where: { username: username },
   });
   if (!user) {
     return res.status(400).json({ message: "Credenciales inválidas." });
@@ -26,14 +25,11 @@ AuthApi.post("/api/login", async (req, res) => {
   try {
     // Comparar la contraseña proporcionada con la contraseña hasheada
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log(isMatch)
+    console.log(isMatch);
     if (!isMatch) {
       return res.status(400).json({ message: "Credenciales inválidas." });
     }
 
-    // Generar el JSON Web Token
-    // El payload del token DEBE ser información no sensible y suficiente para identificar al usuario.
-    // NO incluyas la contraseña hasheada aquí.
     const payload = {
       user: {
         id: user.id,
@@ -47,7 +43,7 @@ AuthApi.post("/api/login", async (req, res) => {
       { expiresIn: "1h" }, // El token expira en 1 hora
       (err, token) => {
         if (err) throw err;
-        res.json({ token, ...payload}); // Envía el token al cliente
+        res.json({ token, ...payload }); // Envía el token al cliente
       }
     );
   } catch (err) {
@@ -68,7 +64,7 @@ AuthApi.post("/register", async (req, res) => {
   }
 
   const user = User.findOne({
-    where: { username: username},
+    where: { username: username },
   });
 
   // Verificar si el usuario ya existe
@@ -88,12 +84,10 @@ AuthApi.post("/register", async (req, res) => {
     };
     users.push(newUser);
 
-    res
-      .status(201)
-      .json({
-        message: "Usuario registrado exitosamente.",
-        user: { id: newUser.id, username: newUser.username },
-      });
+    res.status(201).json({
+      message: "Usuario registrado exitosamente.",
+      user: { id: newUser.id, username: newUser.username },
+    });
   } catch (err) {
     console.error(err);
     res
