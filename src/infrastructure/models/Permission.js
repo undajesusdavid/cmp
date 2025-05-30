@@ -21,12 +21,5 @@ export const Permission = sequelize.define("permisos", {
   },
 });
 
-/*User.belongsTo(Employee, {
-  foreignKey: "empleado_id",
-  allowNull: true,
-  unique: true,
-  as: "empleado",
-});
-Employee.hasOne(User, { foreignKey: "empleado_id", as: "usuario" });*/
 
 export default Permission;

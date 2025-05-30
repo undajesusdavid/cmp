@@ -10,9 +10,11 @@ import { AcademicLevel } from "../models/metadata/AcademicLevel.js";
 import { BloodType } from "../models/metadata/BloodType.js";
 import TypeHousing from "../models/metadata/TypeHousing.js";
 import CondHousing from "../models/metadata/CondHousing.js";
+import { Employee } from "../models/Employee.js";
+import Role from "../models/Role.js";
+import Permission from "../models/Permission.js";
 
 import authenticateToken from "../middleware/auth.js";
-import { json } from "sequelize";
 
 const MetadataApi = Router();
 
@@ -36,5 +38,14 @@ MetadataApi.get(
   }
 );
 
+MetadataApi.get("/api/user/metadata", authenticateToken, async (req, res) => {
+  const metadata = {
+    employees: await Employee.findAll({ attributes: ["id", "nombre"] }),
+    roles: await Role.findAll({ attributes: ["id", "nombre"] }),
+    permissions: await Permission.findAll({ attributes: ["id", "nombre"] }),
+  };
+
+  res.json(metadata);
+});
 
 export default MetadataApi;

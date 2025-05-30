@@ -1,0 +1,7 @@
+export default [
+    {
+        id: 1,
+        role_id: 1,
+        permission_id: 1
+    }
+]

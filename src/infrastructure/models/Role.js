@@ -1,8 +1,7 @@
 import { sequelize } from "../database/sequelize.js";
 import { DataTypes } from "sequelize";
-import User from "./User.js";
 
-const Roles = sequelize.define("roles", {
+const Role = sequelize.define("roles", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -22,10 +21,5 @@ const Roles = sequelize.define("roles", {
   },
 });
 
-/*Roles.belongsToMany(User, {
-  as: "usuarios",
-  through: "usuarios_roles",
-  foreignKey: "rol_id",
-});*/
 
-export default Roles;
+export default Role;

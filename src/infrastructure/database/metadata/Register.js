@@ -31,14 +31,20 @@ import parentesco from "./parentesco.js";
 import User from "../../models/User.js";
 import users from "./user.js";
 
-import Roles from "../../models/Roles.js";
+import Role from "../../models/Role.js";
 import roles from "./roles.js";
 
 import Permission from "../../models/Permission.js";
 import permisos from "./permisos.js";
 
-import UsersRoles from "../../models/UsersRoles.js";
+import UserRole from "../../models/UserRole.js";
 import usuarios_roles from "./usuarios_roles.js";
+
+import RolePermission from "../../models/RolePermission.js";
+import roles_permisos from "./roles_permisos.js";
+
+import UserPermission from "../../models/UserPermission.js";
+import usuarios_permisos from "./usuarios_permisos.js";
 
 export default [
   { table: Nationality, data: nacionalidad },
@@ -52,7 +58,9 @@ export default [
   { table: AcademicLevel, data: nivelAcademico },
   { table: FamilyRelationship, data: parentesco },
   { table: User, data: users },
-  { table: Roles, data: roles },
+  { table: Role, data: roles },
   { table: Permission, data: permisos },
-  { table: UsersRoles, data: usuarios_roles },
+  { table: UserRole, data: usuarios_roles },
+  { table: RolePermission, data: roles_permisos },
+  { table: UserPermission, data: usuarios_permisos },
 ];
