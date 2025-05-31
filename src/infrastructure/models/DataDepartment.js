@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 
-const Permission = (sequelize) => {
-  return sequelize.define("permisos",
+const DataDepartment = (sequelize) => {
+  return sequelize.define(
+    "departamentos",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -15,16 +16,12 @@ const Permission = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: false,
-      },
     },
     {
-      tableName: "permisos",
+      timestamps: false,
+      tableName: "departamentos",
     }
   );
 };
 
-export default Permission;
+export default DataDepartment;

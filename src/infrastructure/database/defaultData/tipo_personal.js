@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     nombre: "Maxima autoridad",
@@ -52,3 +52,12 @@ export default [
     nombre: "Planificador(a)",
   },
 ];
+
+const handleCreate = async (db) => {
+  if (( await db.tipo_personal.count()) === 0) {
+    await db.tipo_personal.bulkCreate(data);
+  }
+ 
+};
+
+export default handleCreate;

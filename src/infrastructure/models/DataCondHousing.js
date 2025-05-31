@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 
-const Permission = (sequelize) => {
-  return sequelize.define("permisos",
+const DataCondHousing = (sequelize) => {
+  return sequelize.define(
+    "condicion_viviendas",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -10,21 +11,17 @@ const Permission = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      nombre: {
+      condicion: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: false,
-      },
     },
     {
-      tableName: "permisos",
+      timestamps: false,
+      tableName: "condicion_viviendas"
     }
   );
 };
 
-export default Permission;
+export default DataCondHousing;

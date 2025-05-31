@@ -1,55 +1,52 @@
 import { Router } from "express";
-import { Employee } from "../models/Employee.js";
-import { EmployeeSizes } from "../models/EmployeeSizes.js";
-import { EmployeeFamily } from "../models/EmployeeFamily.js";
-import { EmployeeVehicle } from "../models/EmployeeVehicle.js";
-import User  from "../models/User.js";
 import authenticateToken from "../middleware/auth.js";
-import bcrypt from "bcryptjs";
 
-const EmployeeApi = Router();
 
-EmployeeApi.get("/api/employee/list", authenticateToken, async (req, res) => {
-  const employees = await Employee.findAll({
-    include: ["cargo", "departamento"],
+const EmployeeApi = (db) => {
+  const Employee = db.empleados;
+  const EmployeeSizes = db.tallas_empleado;
+  const EmployeeFamily = db.familia_empleado;
+  const EmployeeVehicle = db.vehiculo_empleado;
+
+  const router = Router();
+
+  router.get("/api/employee/list", authenticateToken, async (req, res) => {
+    const employees = await Employee.findAll({
+      include: ["cargo", "departamento"],
+    });
+    res.json(employees);
   });
 
-  res.json(employees);
-});
-
-EmployeeApi.get("/api/employee/get", authenticateToken, async (req, res) => {
-  const id = req.query.id;
-  const employee = await Employee.findOne({
-    where: { id: id },
-    include: [
-      "nacionalidad",
-      "tipo_vivienda",
-      "cond_vivienda",
-      "tipo_sangre",
-      "nivel_academico",
-      "profesion",
-      "tipo_personal",
-      "cargo",
-      "departamento",
-      "vehiculos",
-      "usuario",
-      {
-        association: "familiares",
-        include: ["parentesco"],
-      },
-      {
-        association: "tallas",
-        attributes: ["id", "zapato", "camisa", "pantalon"],
-      },
-    ],
+  router.get("/api/employee/get", authenticateToken, async (req, res) => {
+    const id = req.query.id;
+    const employee = await Employee.findOne({
+      where: { id: id },
+      include: [
+        "nacionalidad",
+        "tipo_vivienda",
+        "cond_vivienda",
+        "tipo_sangre",
+        "nivel_academico",
+        "profesion",
+        "tipo_personal",
+        "cargo",
+        "departamento",
+        "vehiculos",
+        "usuario",
+        {
+          association: "familiares",
+          include: ["parentesco"],
+        },
+        {
+          association: "tallas",
+          attributes: ["id", "zapato", "camisa", "pantalon"],
+        },
+      ],
+    });
+    res.json(employee);
   });
-  res.json(employee);
-});
 
-EmployeeApi.post(
-  "/api/employee/register",
-  authenticateToken,
-  async (req, res) => {
+  router.post("/api/employee/register", authenticateToken, async (req, res) => {
     // Create a new employee
     const data = req.body;
     console.log(data);
@@ -96,37 +93,38 @@ EmployeeApi.post(
     });
 
     /*
-    if (data.familiares.lenght > 0) {
-      data.familiares.forEach(async (fam) => {
-        await EmployeeFamily.create({
-          empleado_id: employee.getDataValue("id"),
-          parentesco_id: fam.parentesco_id,
-          nombre: fam.nombre,
-          apellido: fam.apellido,
-          cedula: fam.cedula,
-          fec_nac: fam.fec_nac,
+      if (data.familiares.lenght > 0) {
+        data.familiares.forEach(async (fam) => {
+          await EmployeeFamily.create({
+            empleado_id: employee.getDataValue("id"),
+            parentesco_id: fam.parentesco_id,
+            nombre: fam.nombre,
+            apellido: fam.apellido,
+            cedula: fam.cedula,
+            fec_nac: fam.fec_nac,
+          });
         });
-      });
-    }*/
+      }*/
 
     /*data.vehiculos.forEach(async (veh) => {
-      await EmployeeVehicle.create({
-        empleado_id: employee.getDataValue("id"),
-        marca: veh.marca,
-        modelo: veh.modelo,
-        anio: veh.anio,
-        color: veh.color,
+        await EmployeeVehicle.create({
+          empleado_id: employee.getDataValue("id"),
+          marca: veh.marca,
+          modelo: veh.modelo,
+          anio: veh.anio,
+          color: veh.color,
+        });
       });
-    });
-
-    await User.create({
-      username: username,
-      password: await bcrypt.hash(password, 10),
-      empleado_id: employee.getDataValue("id"),
-    });*/
+  
+      await User.create({
+        username: username,
+        password: await bcrypt.hash(password, 10),
+        empleado_id: employee.getDataValue("id"),
+      });*/
 
     res.json(employee);
-  }
-);
+  });
+  return router;
+};
 
 export default EmployeeApi;

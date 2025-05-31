@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     nombre: "CONTRALOR",
@@ -68,3 +68,11 @@ export default [
     nombre: "SEGURIDAD",
   },
 ];
+
+const handleCreate = async (db) => {
+  if ((await db.cargos.count()) === 0) {
+    await db.cargos.bulkCreate(data);
+  }
+};
+
+export default handleCreate;

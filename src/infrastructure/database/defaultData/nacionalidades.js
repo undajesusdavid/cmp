@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     nombre: "Venezolana",
@@ -20,3 +20,11 @@ export default [
     nombre: "USA",
   },
 ];
+
+const handleCreate = async (db) => {
+  if ((await db.nacionalidades.count()) === 0) {
+    await db.nacionalidades.bulkCreate(data);
+  }
+};
+
+export default handleCreate;

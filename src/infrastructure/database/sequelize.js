@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import { configDB as config } from "../config/envairoments.js";
 
 // Conexión a la base de datos
-export const sequelize = new Sequelize(
+const sequelize = new Sequelize(
   config.DB_NAME,
   config.DB_USER,
   config.DB_PASSWORD,
@@ -12,3 +12,6 @@ export const sequelize = new Sequelize(
     dialect: config.DB_DIALECT,
   }
 );
+
+
+export {sequelize}

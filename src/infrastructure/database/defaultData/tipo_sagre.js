@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     tipo: "O+",
@@ -32,3 +32,11 @@ export default [
     tipo: "AB-",
   },
 ];
+
+const handleCreate = async (db) => {
+  if (( await db.tipo_sangre.count()) === 0) {
+    await db.tipo_sangre.bulkCreate(data);
+  }
+};
+
+export default handleCreate;

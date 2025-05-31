@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 
-const Permission = (sequelize) => {
-  return sequelize.define("permisos",
+const DataAcademicLevel = (sequelize) => {
+  return sequelize.define(
+    "niveles_academicos",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -10,21 +11,18 @@ const Permission = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      nombre: {
+      nivel: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: false,
-      },
     },
     {
-      tableName: "permisos",
+      timestamps: false,
+      tableName: "niveles_academicos"
     }
   );
 };
 
-export default Permission;
+
+export default DataAcademicLevel;

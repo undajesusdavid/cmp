@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     nombre: "add_employee",
@@ -20,3 +20,11 @@ export default [
     descripcion: "Permiso para ver los detalles del empleados",
   },
 ];
+
+const handleCreate = async (db) => {
+  if ((await db.permisos.count()) === 0) {
+    await db.permisos.bulkCreate(data);
+  }
+};
+
+export default handleCreate;

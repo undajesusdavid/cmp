@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     nivel: "Bachiller",
@@ -28,3 +28,12 @@ export default [
     nivel: "Doctorado",
   },
 ];
+
+const handleCreate = async (db) => {
+  if ((await db.niveles_academicos.count()) === 0) {
+    await db.niveles_academicos.bulkCreate(data);
+  }
+  
+};
+
+export default handleCreate;

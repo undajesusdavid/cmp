@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 
-const Permission = (sequelize) => {
-  return sequelize.define("permisos",
+const DataJobPosition = (sequelize) => {
+  return sequelize.define("cargos",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -15,16 +15,12 @@ const Permission = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: false,
-      },
     },
     {
-      tableName: "permisos",
+      timestamps: false,
+      tableName: "cargos",
     }
   );
 };
 
-export default Permission;
+export default DataJobPosition;

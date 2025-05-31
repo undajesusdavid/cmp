@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 
-const Permission = (sequelize) => {
-  return sequelize.define("permisos",
+const DataNationality = (sequelize) => {
+  return sequelize.define("nacionalidades",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -15,16 +15,13 @@ const Permission = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: false,
-      },
     },
     {
-      tableName: "permisos",
+      timestamps: false,
+      tableName: "nacionalidades"
     }
   );
 };
 
-export default Permission;
+
+export default DataNationality;

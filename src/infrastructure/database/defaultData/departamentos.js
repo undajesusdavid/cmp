@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     nombre: "CGR",
@@ -36,3 +36,11 @@ export default [
     nombre: "DIR. CONTROL POSTERIOR",
   },
 ];
+
+const handleCreate = async (db) => {
+  if ((await db.departamentos.count()) === 0) {
+    await db.departamentos.bulkCreate(data);
+  }
+};
+
+export default handleCreate;
