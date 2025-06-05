@@ -229,8 +229,8 @@ function defineAssociations() {
     );
   }
 
-  if (db.empleados && db.tipo_sagre) {
-    db.empleados.belongsTo(db.tipo_sagre, {
+  if (db.empleados && db.tipo_sangre) {
+    db.empleados.belongsTo(db.tipo_sangre, {
       foreignKey: "tipo_sangre_id",
       as: "tipo_sangre",
     });
