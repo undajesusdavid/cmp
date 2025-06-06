@@ -105,4 +105,6 @@ const Employee = (sequelize) => {
   );
 };
 
+
+
 export default Employee;

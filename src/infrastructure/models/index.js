@@ -10,42 +10,51 @@ const __dirname = path.dirname(__filename);
 
 const db = {};
 
-// --- INICIO DE LA CARGA DE MODELOS (AHORA SÍ ASÍNCRONA PERO ESPERAMOS POR ELLA) ---
-// Usamos Promise.all para esperar a que todos los modelos se importen y se definan.
+/* --- INICIO DE LA CARGA DE MODELOS (AHORA SÍ ASÍNCRONA PERO ESPERAMOS POR ELLA) ---
+Usamos Promise.all para esperar a que todos los modelos se importen y se definan.*/
 async function loadModels() {
   const files = fs.readdirSync(__dirname).filter((file) => {
     return (
-      file.indexOf(".") !== 0 &&
+      file.indexOf(".") !== 0 && // Excluye archivos ocultos
       file !== path.basename(__filename) && // Excluye index.js
-      file.slice(-3) === ".js"
+      file.slice(-3) === ".js" // Solo toma los archivos js
     );
   });
 
   const modelPromises = files.map(async (file) => {
     const filePath = path.join(__dirname, file);
     const fileUrl = pathToFileURL(filePath).href; // Convertir ruta a URL
-    const modelModule = await import(fileUrl);
-    // Asegúrate de que el modelo exportado sea la función que espera 'sequelize'
-    const model = modelModule.default(sequelize);
-    db[model.name] = model;
+    try {
+      const modelModule = await import(fileUrl);
+      if (typeof modelModule.default === "function") {
+        const model = modelModule.default(sequelize);
+        db[model.name] = model;
+        console.log(`Modelo '${model.name}' cargado exitosamente.`);
+      } else {
+        console.warn(
+          `Advertencia: El archivo ${file} no exporta una función por defecto válida para un modelo. Ignorando.`
+        );
+      }
+    } catch (error) {
+      console.error(`Error crítico al cargar el modelo desde ${file}:`, error);
+    }
   });
 
   await Promise.all(modelPromises); // Espera a que TODOS los modelos se carguen
 }
+
 // --- FIN DE LA CARGA DE MODELOS ---
 
 // Función para definir las asociaciones después de que los modelos se han cargado
 function defineAssociations() {
-  // Asegúrate de que los nombres de las tablas en `db` coincidan con tus modelos definidos
-  // por ejemplo, si tu modelo Permission es 'permisos', entonces db.permisos es correcto.
-  // Si tu modelo Role es 'roles', entonces db.roles es correcto.
-  // Y así sucesivamente.
-
-  // Definir todas las asociaciones usando el método .associate si lo tienes
-  // (Aunque en este caso lo estamos haciendo explícitamente abajo)
   Object.keys(db).forEach((modelName) => {
     if (db[modelName].associate) {
+      console.log(`Definiendo asociaciones para el modelo '${modelName}'.`);
       db[modelName].associate(db);
+    } else {
+      console.warn(
+        `Advertencia: El modelo '${modelName}' no tiene un método 'associate' definido.`
+      );
     }
   });
 
@@ -291,7 +300,9 @@ function defineAssociations() {
       "Advertencia: Los modelos 'empleados' o 'departamentos' no se encontraron para definir la asociación Employee-Departamento."
     );
   }
-} // Fin de defineAssociations
+}
+
+// Fin de defineAssociations
 
 // Exporta una función asíncrona para cargar los modelos y definir las asociaciones
 // Esto es lo que importarás y llamarás en tu archivo principal (ej. app.js)
