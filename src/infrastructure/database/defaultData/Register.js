@@ -11,6 +11,7 @@ import parentesco_familiar from "./parentesco_familiar.js";
 import usuarios from "./usuarios.js";
 import roles from "./roles.js";
 import permisos from "./permisos.js";
+import unidad_conservacion from "./unidad_conservacion.js";
 
 
 export default [
@@ -27,4 +28,5 @@ export default [
     usuarios,
     roles,
     permisos,
+    unidad_conservacion,
 ];

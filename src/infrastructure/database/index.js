@@ -7,7 +7,7 @@ const runDatabase = async () => {
   
   try {
     const db = await initializeModels();
-    await db.sequelize.sync({ force: false });
+    await db.sequelize.sync({ force: false, alter: true });
     defaultData.forEach(
       async (handleCreate) => await handleCreate(db)
     );

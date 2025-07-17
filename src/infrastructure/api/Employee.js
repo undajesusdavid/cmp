@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authenticateToken from "../middleware/auth.js";
-
+import moment from "moment";
 
 const EmployeeApi = (db) => {
   const Employee = db.empleados;
@@ -57,7 +57,7 @@ const EmployeeApi = (db) => {
       nombre: data.nombre,
       apellido: data.apellido,
       genero: data.genero,
-      fecha_nac: Date(data.fecha_nac),
+      fecha_nac: moment(data.fecha_nac, "YYYY-MM-DD"),
       lugar_nac: data.lugar_nac,
       altura: parseFloat(data.altura),
       peso: parseFloat(data.peso),
@@ -67,8 +67,8 @@ const EmployeeApi = (db) => {
       correo: data.correo,
       tlf_habitacion: data.tlf_habitacion,
       tlf_movil: data.tlf_movil,
-      fec_ingreso_admin_pub: Date(data.fec_ingreso_admin_pub),
-      fec_ingreso_inst: Date(data.fec_ingreso_inst),
+      fec_ingreso_admin_pub: moment(data.fec_ingreso_admin_pub, "YYYY-MM-DD"),
+      fec_ingreso_inst: moment(data.fec_ingreso_inst, "YYYY-MM-DD"),
       conadpis: data.conadpis,
       tiene_carnet_patria: data.tiene_carnet_patria,
       codigo_carnet_patria: data.codigo_carnet_patria,

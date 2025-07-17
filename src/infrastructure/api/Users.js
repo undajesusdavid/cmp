@@ -1,9 +1,6 @@
 import { Router } from "express";
 import authenticateToken from "../middleware/auth.js";
 import HashPassword from "../utils/HashPassword.js";
-import User from "../models/User.js";
-import Role from "../models/Role.js";
-import Permission from "../models/Permission.js";
 
 const UserApi = (db) => {
   const User = db.usuarios;

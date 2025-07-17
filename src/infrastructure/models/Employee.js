@@ -33,7 +33,7 @@ const Employee = (sequelize) => {
         allowNull: false,
       },
       fecha_nac: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       lugar_nac: {
@@ -73,11 +73,11 @@ const Employee = (sequelize) => {
         allowNull: false,
       },
       fec_ingreso_admin_pub: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       fec_ingreso_inst: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       conadpis: {
