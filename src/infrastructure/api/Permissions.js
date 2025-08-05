@@ -6,12 +6,14 @@ const PermissionApi = (db) => {
   const router = Router();
   const include = [
     {
-      association: "usuarios",
+      model : db.usuarios,
+      as: "usuarios",
       attributes: ["id", "username"],
       through: { attributes: [] },
     },
     {
-      association: "roles",
+      model: db.roles,
+      as: "roles",
       attributes: ["id", "nombre"],
       through: { attributes: [] },
     },

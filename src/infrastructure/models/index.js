@@ -1,54 +1,65 @@
 // models/index.js
 import { Sequelize } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
-import fs from "fs";
+import fs from "fs/promises"; // Usar versión asíncrona
 import path from "path";
-import { fileURLToPath, pathToFileURL } from "url"; // Importa pathToFileURL
-import AllRelationships from "./relations/index.js";
+import { fileURLToPath, pathToFileURL } from "url";
+import AllRelationships from "../models_relationships/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const db = {};
 
-/* --- INICIO DE LA CARGA DE MODELOS (AHORA SÍ ASÍNCRONA PERO ESPERAMOS POR ELLA) ---
-Usamos Promise.all para esperar a que todos los modelos se importen y se definan.*/
-async function loadModels() {
-  const files = fs.readdirSync(__dirname).filter((file) => {
-    return (
+// Función recursiva asíncrona para obtener todos los archivos .js en subcarpetas
+async function getJsFiles(dir) {
+  let results = [];
+  const list = await fs.readdir(dir);
+  for (const file of list) {
+    const filePath = path.join(dir, file);
+    const stat = await fs.stat(filePath);
+    if (stat && stat.isDirectory()) {
+      const subResults = await getJsFiles(filePath); // Recursivo en subcarpetas
+      results = results.concat(subResults);
+    } else if (
       file.indexOf(".") !== 0 && // Excluye archivos ocultos
       file !== path.basename(__filename) && // Excluye index.js
-      file.slice(-3) === ".js" // Solo toma los archivos js
-    );
-  });
+      file.slice(-3) === ".js"
+    ) {
+      results.push(filePath);
+    }
+  }
+  return results;
+}
 
-  const modelPromises = files.map(async (file) => {
-    const filePath = path.join(__dirname, file);
-    const fileUrl = pathToFileURL(filePath).href; // Convertir ruta a URL
+/* --- INICIO DE LA CARGA DE MODELOS (AHORA ASÍNCRONA Y NO BLOQUEANTE) --- */
+async function loadModels() {
+  const files = await getJsFiles(__dirname);
+
+  const modelPromises = files.map(async (filePath) => {
+    const fileUrl = pathToFileURL(filePath).href;
     try {
       const modelModule = await import(fileUrl);
       if (typeof modelModule.default === "function") {
         const model = modelModule.default(sequelize);
         db[model.name] = model;
-        console.log(`Modelo '${model.name}' cargado exitosamente.`);
+        console.log(`Modelo '${model.name}' cargado exitosamente desde '${filePath}'.`);
       } else {
         console.warn(
-          `Advertencia: El archivo ${file} no exporta una función por defecto válida para un modelo. Ignorando.`
+          `Advertencia: El archivo ${filePath} no exporta una función por defecto válida para un modelo. Ignorando.`
         );
       }
     } catch (error) {
-      console.error(`Error crítico al cargar el modelo desde ${file}:`, error);
+      console.error(`Error crítico al cargar el modelo desde ${filePath}:`, error);
     }
   });
 
-  await Promise.all(modelPromises); // Espera a que TODOS los modelos se carguen
+  await Promise.all(modelPromises);
 }
 
-// --- FIN DE LA CARGA DE MODELOS ---
-
 // Función para definir las asociaciones después de que los modelos se han cargado
-function defineAssociations() {
-  Object.keys(db).forEach((modelName) => {
+async function defineAssociations() {
+  for (const modelName of Object.keys(db)) {
     if (db[modelName].associate) {
       console.log(`Definiendo asociaciones para el modelo '${modelName}'.`);
       db[modelName].associate(db);
@@ -57,19 +68,20 @@ function defineAssociations() {
         `Advertencia: El modelo '${modelName}' no tiene un método 'associate' definido.`
       );
     }
-  });
+  }
 
-  //Cargar Relaciones 
-  AllRelationships(db);
+  // Cargar Relaciones (asíncrono si AllRelationships lo es)
+  if (AllRelationships.constructor.name === "AsyncFunction") {
+    await AllRelationships(db);
+  } else {
+    AllRelationships(db);
+  }
 }
 
-
-
 // Exporta una función asíncrona para cargar los modelos y definir las asociaciones
-// Esto es lo que importarás y llamarás en tu archivo principal (ej. app.js)
 export async function initializeModels() {
   await loadModels(); // Primero carga todos los modelos
-  defineAssociations(); // Luego define todas las asociaciones
+  await defineAssociations(); // Luego define todas las asociaciones
 
   db.sequelize = sequelize;
   db.Sequelize = Sequelize;
@@ -77,6 +89,4 @@ export async function initializeModels() {
   return db;
 }
 
-// Puedes exportar db directamente si solo quieres los modelos sin asegurar que las asociaciones estén definidas
-// al momento de la importación inicial, pero la función initializeModels es más robusta.
 // export default db;

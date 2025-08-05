@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 
-const ArchDocumentaryInventory = (sequelize) => {
+const Record = (sequelize) => {
   
-  return sequelize.define("inventario_documental",
+  return sequelize.define("Expediente",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -14,29 +14,24 @@ const ArchDocumentaryInventory = (sequelize) => {
       codigo: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: false,
+        unique: true,
       },
-       titulo: {
+      descripcion: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,
       },
-      ubicacion: {
-        type: DataTypes.STRING,
+      fecha:{
+        type: DataTypes.DATE,
         allowNull: false,
         unique: false,
-      },
-      observacion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: false,
-      },
+      }
     },
-    {
+      {
       timestamps: false,
-      tableName: "inventario_documental"
+      tableName: "arch_expediente",
     }
   );
 };
 
-export default ArchDocumentaryInventory;
+export default Record;

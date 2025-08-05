@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 
-const ArchContent = (sequelize) => {
+const Container = (sequelize) => {
   
-  return sequelize.define("inventario_contenido",
+  return sequelize.define("Contenedor",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -16,12 +16,22 @@ const ArchContent = (sequelize) => {
         allowNull: false,
         unique: false,
       },
+      ubicacion: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+      },
+      ejercicio: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+      },
     },
-      {
+    {
       timestamps: false,
-      tableName: "inventario_contenido"
+      tableName: "arch_contenedor",
     }
   );
 };
 
-export default ArchContent;
+export default Container;

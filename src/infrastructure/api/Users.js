@@ -15,12 +15,14 @@ const UserApi = (db) => {
 
   const include = [
     {
-      association: "permisos",
+      model: db.permisos,
+      as: "permisos",
       attributes: ["id", "nombre"],
       through: { attributes: [] },
     },
     {
-      association: "roles",
+      model: db.roles,
+      as: "roles",
       attributes: ["id", "nombre", "descripcion"],
       through: { attributes: [] },
     },

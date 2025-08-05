@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 
-const ArchConservationUnit= (sequelize) => {
+const Clasificacion = (sequelize) => {
   
-  return sequelize.define("unidad_conservacion",
+  return sequelize.define("Clasificacion",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -11,13 +11,22 @@ const ArchConservationUnit= (sequelize) => {
         allowNull: false,
         unique: true,
       },
+      codigo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+      },
       nombre: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,
       },
+    },
+    {
+      timestamps: false,
+      tableName: "arch_clasificacion",
     }
   );
 };
 
-export default ArchConservationUnit;
+export default Clasificacion;

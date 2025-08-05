@@ -1,30 +1,34 @@
 const data =  [
   {
     id: 1,
-    nombre: "Carpeta",
+    nombre: "Maika",
   },
   {
     id: 2,
-    nombre: "Encuadernado",
+    nombre: "Carpeta",
   },
   {
     id: 3,
-    nombre: "Empastado",
+    nombre: "Encuadernado",
   },
   {
     id: 4,
-    nombre: "Caja",
+    nombre: "Empastado",
   },
   {
     id: 5,
+    nombre: "Caja",
+  },
+  {
+    id: 6,
     nombre: "Archicomodo",
   },
 ];
 
 
 const handleCreate = async (db) => {
-  if ((await db.unidad_conservacion.count()) === 0) {
-    await db.unidad_conservacion.bulkCreate(data);
+  if ((await db.UnidadConservacion.count()) === 0) {
+    await db.UnidadConservacion.bulkCreate(data);
   }
   
 }

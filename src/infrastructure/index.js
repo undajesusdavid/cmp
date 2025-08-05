@@ -23,7 +23,7 @@ app.options("*", cors(corsOptions));
 
 
 const db = await runDatabase();
-app.use(Api(db));
+app.use(await Api(db));
 
 app.get("/", async (req, res) => {
   res.json("Servidor Corriendo");
