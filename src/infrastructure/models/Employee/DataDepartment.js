@@ -16,6 +16,11 @@ const DataDepartment = (sequelize) => {
         allowNull: false,
         unique: true,
       },
+      nomenclatura: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
     },
     {
       timestamps: false,

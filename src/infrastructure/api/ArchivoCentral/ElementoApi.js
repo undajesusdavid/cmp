@@ -17,6 +17,7 @@ const ElementoApi = (db) => {
       const items = await Elemento.findAll({
         include: [
           { model: db.Clasificacion, as: "clasificacion" },
+          { model: db.Contenedor, as: "contenedor" },
         ],
       });
       res.json(items);

@@ -1,39 +1,43 @@
 const data = [
   {
     id: 1,
-    nombre: "CGR",
+    nombre: "DIR. ASUNTOS JURIDICOS",
+    nomenclatura: "DSJ"
   },
   {
     id: 2,
-    nombre: "DIR. ASUNTOS JURIDICOS",
+    nombre: "DIR. AUDITORIA INTERNA",
+    nomenclatura: "DAI"
   },
   {
     id: 3,
-    nombre: "DIR. AUDITORIA INTERNA",
+    nombre: "DIR. ADMINISTRACION Y FINANZAS",
+    nomenclatura: "DAF"
   },
   {
     id: 4,
-    nombre: "DIR. ADMINISTRACION Y RRHH",
+    nombre: "DIR. ATENCION AL CIUDADANO",
+    nomenclatura: "DAC"
   },
   {
     id: 5,
-    nombre: "DIR. ATENCION AL CIUDADANO",
+    nombre: "DIR. POTESTAD INVESTIGATIVA",
+    nomenclatura: "DPI"
   },
   {
     id: 6,
-    nombre: "DIR. POTESTAD INVESTIGATIVA",
+    nombre: "DIR. DETERMINACIÓN DE RESPONSABILIDADES",
+    nomenclatura: "DDR"
   },
   {
     id: 7,
-    nombre: "DIR. DETERMINACIÓN DE RESPONSABILIDADES",
+    nombre: "DIR. PLANIFICACIÓN, SECRETARÍA Y ARCHIVO",
+    nomenclatura: "DPSA"
   },
   {
     id: 8,
-    nombre: "DIR. PLANIFICACIÓN, SECRETARÍA Y ARCHIVO",
-  },
-  {
-    id: 9,
     nombre: "DIR. CONTROL POSTERIOR",
+    nomenclatura: "DCP"
   },
 ];
 

@@ -13,7 +13,7 @@ const ArchDocumentaryInventory = (sequelize) => {
       },
       codigo: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: false,
       },
       titulo: {
@@ -21,21 +21,25 @@ const ArchDocumentaryInventory = (sequelize) => {
         allowNull: false,
         unique: false,
       },
-      numero_pieza: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
+      ejercicio_fiscal: {
+        type: DataTypes.STRING,
         allowNull: false,
+        unique: false,
+      },
+      numero_carpeta: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
         unique: false,
       },
       observacion: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: false,
       },
     },
     {
       timestamps: false,
-      tableName: "arch_elemento_archivado",
+      tableName: "arch_elementos",
     }
   );
 };

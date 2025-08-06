@@ -11,12 +11,22 @@ const Clasificacion = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      codigo: {
+      cod_serie: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,
       },
-      nombre: {
+      cod_subserie: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+      },
+      serie: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+      },
+      subserie: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,
