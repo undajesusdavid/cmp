@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-const ArchDocumentaryInventory = (sequelize) => {
+const ElementoArchivado = (sequelize) => {
   return sequelize.define(
     "ElementoArchivado",
     {
@@ -26,8 +26,8 @@ const ArchDocumentaryInventory = (sequelize) => {
         allowNull: false,
         unique: false,
       },
-      numero_carpeta: {
-        type: DataTypes.INTEGER,
+      soporte: {
+        type: DataTypes.STRING,
         allowNull: true,
         unique: false,
       },
@@ -44,4 +44,4 @@ const ArchDocumentaryInventory = (sequelize) => {
   );
 };
 
-export default ArchDocumentaryInventory;
+export default ElementoArchivado;

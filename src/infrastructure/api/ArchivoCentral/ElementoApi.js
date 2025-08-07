@@ -48,7 +48,10 @@ const ElementoApi = (db) => {
       const newItem = await Elemento.create({
         codigo: data.codigo,
         titulo: data.titulo,
+        ejercicio_fiscal: data.ejercicio_fiscal,
+        soporte: data.soporte,
         observacion: data.observacion,
+        clasificacion_id: data.clasificacion_id,
       });
 
       res.json(newItem);
