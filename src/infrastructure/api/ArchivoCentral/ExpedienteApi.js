@@ -12,7 +12,9 @@ const ExpedienteApi = (db) => {
     "/api/archivo/expediente/list",
     authenticateToken,
     async (req, res) => {
-      const records = await Expediente.findAll({ include });
+      const records = await Expediente.findAll({
+        include: [{model: db.ElementoArchivado, as: "elementos"}]
+      })
       res.json(records);
     }
   );

@@ -3,7 +3,7 @@ const RelContainer = (db) => {
   if (db.Contenedor && db.UnidadConservacion) {
     db.Contenedor.belongsTo(db.UnidadConservacion, {
       foreignKey: "unidad_conservacion_id",
-      as: "tipo",
+      as: "unidad_conservacion",
     });
   } else {
     console.warn(

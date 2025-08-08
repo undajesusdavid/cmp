@@ -10,7 +10,12 @@ const ContenedorApi = (db) => {
     "/api/archivo/contenedor/list",
     authenticateToken,
     async (req, res) => {
-      const containers = await Contenedor.findAll({ include });
+      const containers = await Contenedor.findAll({
+        include: [
+          { model: db.UnidadConservacion, as: "unidad_conservacion" },
+          { model: db.departamentos, as: "departamento" },
+        ],
+      });
       res.json(containers);
     }
   );
@@ -22,7 +27,6 @@ const ContenedorApi = (db) => {
       const id = req.query.id;
       const container = await Contenedor.findOne({
         where: { id: id },
-        include,
       });
       res.json(container);
     }
@@ -34,9 +38,11 @@ const ContenedorApi = (db) => {
     async (req, res) => {
       const data = req.body;
       const newContainer = await Contenedor.create({
-        codigo: data.codigo,
-        titulo: data.titulo,
-        observacion: data.observacion,
+        descripcion: data.descripcion,
+        ubicacion: data.ubicacion,
+        ejercicio: data.ejercicio,
+        unidad_conservacion_id: data.unidad_conservacion_id,
+        departamento_id: data.departamento_id,
       });
 
       res.json(newContainer);
