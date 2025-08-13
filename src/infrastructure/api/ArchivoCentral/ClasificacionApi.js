@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authenticateToken from "../../middleware/auth.js";
+import { Sequelize } from "sequelize";
 
 const ClasificacionApi = (db) => {
   const router = Router();
@@ -22,8 +23,8 @@ const ClasificacionApi = (db) => {
     async (req, res) => {
       const id = req.query.id;
       const clasificacion = await Model.findOne({
-        where: { id: id },
-        include,
+        where: { id },
+        include: [{ model: db.departamentos, as: "departamento" }],
       });
       res.json(clasificacion);
     }
@@ -43,6 +44,37 @@ const ClasificacionApi = (db) => {
       });
 
       res.json(nuevaClasificacion);
+    }
+  );
+
+  router.put(
+    "/api/archivo/clasificacion/update",
+    authenticateToken,
+    async (req, res) => {
+      const data = req.body;
+      const updated = await Model.update(data, { where: { id: data.id } });
+      res.json(updated);
+    }
+  );
+
+  router.delete(
+    "/api/archivo/clasificacion/delete",
+    authenticateToken,
+    async (req, res, next) => {
+      const id = req.query.id;
+      try {
+        const fieldsDeleted = await Model.destroy({
+          where: { id: id },
+        });
+        res.json(fieldsDeleted);
+
+      } catch (error) {
+        //console.error(error.stack)
+        if (error instanceof Sequelize.ForeignKeyConstraintError) {
+          next({message: "No se puede eliminar, la clasificación ya esta asignada a un elemento"})
+        }
+        next(error);
+      }
     }
   );
 

@@ -2,7 +2,7 @@ const RelClasificacion = (db) => {
   if (db.Clasificacion && db.ElementoArchivado) {
     db.Clasificacion.hasMany(db.ElementoArchivado, {
       foreignKey: "clasificacion_id",
-      //onDelete: 'SET NULL',
+      onDelete: 'RESTRICT',
       as: "elementos",
     });
   } else {

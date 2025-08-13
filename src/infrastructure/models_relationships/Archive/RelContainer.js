@@ -4,6 +4,7 @@ const RelContainer = (db) => {
     db.Contenedor.belongsTo(db.UnidadConservacion, {
       foreignKey: "unidad_conservacion_id",
       as: "unidad_conservacion",
+    
     });
   } else {
     console.warn(

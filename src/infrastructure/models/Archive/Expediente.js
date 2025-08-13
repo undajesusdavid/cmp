@@ -16,16 +16,17 @@ const Record = (sequelize) => {
         allowNull: false,
         unique: true,
       },
+       ejercicio_fiscal:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+      },
       descripcion: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,
       },
-      fecha:{
-        type: DataTypes.DATE,
-        allowNull: false,
-        unique: false,
-      }
+     
     },
       {
       timestamps: false,

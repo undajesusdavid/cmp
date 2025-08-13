@@ -45,7 +45,7 @@ const Api = async (db) => {
   );
 
   // Retorna todas las instancias válidas en un array
-  return apiInstances.filter((instance) => instance);
+  return apiInstances.filter((instance) =>  instance );
 };
 
 export { Api };

@@ -27,6 +27,10 @@ const ContenedorApi = (db) => {
       const id = req.query.id;
       const container = await Contenedor.findOne({
         where: { id: id },
+        include: [
+          { model: db.UnidadConservacion, as: "unidad_conservacion" },
+          { model: db.departamentos, as: "departamento" },
+        ],
       });
       res.json(container);
     }
@@ -46,6 +50,32 @@ const ContenedorApi = (db) => {
       });
 
       res.json(newContainer);
+    }
+  );
+
+  router.put(
+    "/api/archivo/contenedor/update",
+    authenticateToken,
+    async (req, res) => {
+      const data = req.body;
+      const updated = await Contenedor.update(data,{where: {id: data.id}});
+      res.json(updated);
+    }
+  );
+
+  router.delete(
+    "/api/archivo/contenedor/delete",
+    authenticateToken,
+    async (req, res) => {
+      const id = req.query.id;
+      try {
+        await Contenedor.destroy({
+          where: { id: id },
+        });
+        res.json(true);
+      } catch (error) {
+        throw new Error(error.message);
+      }
     }
   );
 

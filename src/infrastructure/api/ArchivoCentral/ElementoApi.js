@@ -4,20 +4,19 @@ import authenticateToken from "../../middleware/auth.js";
 const ElementoApi = (db) => {
   const router = Router();
 
-  // Modelos
+  // Modelo
   const Elemento = db.ElementoArchivado;
-  //const Expediente = db.Expediente;
-  //const Contenedor = db.Contenedor;
 
   // Rutas
   router.get(
-    "/api/archivo/inventario/list",
+    "/api/archivo/elemento/list",
     authenticateToken,
     async (req, res) => {
       const items = await Elemento.findAll({
         include: [
           { model: db.Clasificacion, as: "clasificacion" },
           { model: db.Contenedor, as: "contenedor" },
+          { model: db.Expediente, as: "expediente" },
         ],
       });
       res.json(items);
@@ -25,23 +24,29 @@ const ElementoApi = (db) => {
   );
 
   router.get(
-    "/api/archivo/inventario/get",
+    "/api/archivo/elemento/get",
     authenticateToken,
     async (req, res) => {
-      const id = req.query.id;
-      const item = await Elemento.findOne({
-        where: { id: id },
-      });
-      const record = await item.getExpediente({
-        include: [{ model: Elemento, as: "elementos" }],
-      });
-      const container = await item.getContenedor();
-      res.json({ record, container, item });
+      try {
+        const id = req.query.id;
+        const elemento = await Elemento.findOne({
+          where: { id: id },
+          include: [
+            { model: db.Clasificacion, as: "clasificacion" },
+            { model: db.Contenedor, as: "contenedor" },
+            { model: db.Expediente, as: "expediente" },
+          ],
+        });
+
+        res.json(elemento);
+      } catch (error) {
+        next(error);
+      }
     }
   );
 
   router.post(
-    "/api/archivo/inventario/register",
+    "/api/archivo/elemento/register",
     authenticateToken,
     async (req, res) => {
       const data = req.body;
@@ -55,6 +60,38 @@ const ElementoApi = (db) => {
       });
 
       res.json(newItem);
+    }
+  );
+
+  router.put(
+    "/api/archivo/elemento/update",
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        const data = req.body;
+        const elementoActualizado = await Elemento.update(data, {
+          where: { id: data.id },
+        });
+        res.json(elementoActualizado);
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  router.delete(
+    "/api/archivo/elemento/delete",
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        const id = req.query.id;
+        const status = await Elemento.destroy({
+          where: { id: id },
+        });
+        res.json(status);
+      } catch (error) {
+        next(error);
+      }
     }
   );
 
