@@ -14,12 +14,33 @@ const ElementoApi = (db) => {
     async (req, res) => {
       const items = await Elemento.findAll({
         include: [
+          { model: db.departamentos, as: "departamento" },
           { model: db.Clasificacion, as: "clasificacion" },
           { model: db.Contenedor, as: "contenedor" },
           { model: db.Expediente, as: "expediente" },
         ],
       });
       res.json(items);
+    }
+  );
+
+  //Elementos sin contenedor
+  router.get(
+    "/api/archivo/elemento/list/sin_contenedor",
+    authenticateToken,
+    async (req, res) => {
+      //const departamento_id = req.query.departamento_id;
+      const elementos = await Elemento.findAll({
+        where: {'$contenedor.id$': null},
+        include: [
+          { model: db.departamentos, as: "departamento" },
+          { model: db.Clasificacion, as: "clasificacion" },
+          { model: db.Contenedor, as: "contenedor" },
+          { model: db.Expediente, as: "expediente" },
+        ],
+      });
+      
+      res.json(elementos);
     }
   );
 
@@ -32,6 +53,7 @@ const ElementoApi = (db) => {
         const elemento = await Elemento.findOne({
           where: { id: id },
           include: [
+            { model: db.departamentos, as: "departamento" },
             { model: db.Clasificacion, as: "clasificacion" },
             { model: db.Contenedor, as: "contenedor" },
             { model: db.Expediente, as: "expediente" },
@@ -57,6 +79,7 @@ const ElementoApi = (db) => {
         soporte: data.soporte,
         observacion: data.observacion,
         clasificacion_id: data.clasificacion_id,
+        departamento_id: data.departamento_id,
       });
 
       res.json(newItem);

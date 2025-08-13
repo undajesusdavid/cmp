@@ -35,6 +35,19 @@ const RelArchivedItem = (db) => {
       );
     }
 
+    if (db.departamentos) {
+      db.ElementoArchivado.belongsTo(db.departamentos, {
+        foreignKey: "departamento_id",
+        as: "departamento",
+      });
+    }else{
+      console.warn(
+        "Advertencia: Los modelos 'ElementoArchivado' o 'Clasificacion' no se encontraron para definir la asociación"
+      );
+    }
+
+
+
   } else {
     console.warn(
       "Advertencia: El modelo 'ElementoArchivado' no se encontraron para definir la asociación"
