@@ -10,7 +10,13 @@ const ClasificacionApi = (db) => {
     "/api/archivo/clasificacion/list",
     authenticateToken,
     async (req, res) => {
+      const departamento_id = req.query.departamento_id;
+      const xDepartamento =
+        departamento_id !== null
+          ? { "$departamento.id$": departamento_id }
+          : {};
       const clasificaciones = await Model.findAll({
+        where: xDepartamento,
         include: [{ model: db.departamentos, as: "departamento" }],
       });
       res.json(clasificaciones);
@@ -67,11 +73,13 @@ const ClasificacionApi = (db) => {
           where: { id: id },
         });
         res.json(fieldsDeleted);
-
       } catch (error) {
         //console.error(error.stack)
         if (error instanceof Sequelize.ForeignKeyConstraintError) {
-          next({message: "No se puede eliminar, la clasificación ya esta asignada a un elemento"})
+          next({
+            message:
+              "No se puede eliminar, la clasificación ya esta asignada a un elemento",
+          });
         }
         next(error);
       }
