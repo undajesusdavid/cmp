@@ -7,21 +7,29 @@ const ClasificacionApi = (db) => {
   const Model = db.Clasificacion;
 
   router.get(
-    "/api/archivo/clasificacion/list",
-    authenticateToken,
-    async (req, res) => {
-      const departamento_id = req.query.departamento_id;
-      const xDepartamento =
-        departamento_id !== null
-          ? { "$departamento.id$": departamento_id }
-          : {};
+  "/api/archivo/clasificacion/list",
+  authenticateToken,
+  async (req, res, next) => {
+    const { departamento_id } = req.query;
+
+    const whereClause = departamento_id
+      ? { departamento_id: departamento_id } // Asegúrate de que este campo exista en tu modelo
+      : {};
+
+    try {
       const clasificaciones = await Model.findAll({
-        where: xDepartamento,
+        where: whereClause,
         include: [{ model: db.departamentos, as: "departamento" }],
       });
+
       res.json(clasificaciones);
+    } catch (error) {
+      console.error("Error al obtener clasificaciones:", error);
+      next();
     }
-  );
+  }
+);
+
 
   router.get(
     "/api/archivo/clasificacion/get",

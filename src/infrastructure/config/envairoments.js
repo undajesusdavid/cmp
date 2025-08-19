@@ -3,7 +3,7 @@ import { configDotenv } from "dotenv";
 configDotenv();
 
 export const configCors = {
-  origin: process.env.URL_WEB_CLIENT,
+  origin: process.env.URL_WEB_CLIENT || "http://localhost:5173/",
 };
 
 export const configServer = {
