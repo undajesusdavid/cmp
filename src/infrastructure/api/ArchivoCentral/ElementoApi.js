@@ -31,7 +31,7 @@ const ElementoApi = (db) => {
     async (req, res) => {
       //const departamento_id = req.query.departamento_id;
       const elementos = await Elemento.findAll({
-        where: {'$contenedor.id$': null},
+        where: { "$contenedor.id$": null },
         include: [
           { model: db.departamentos, as: "departamento" },
           { model: db.Clasificacion, as: "clasificacion" },
@@ -39,7 +39,7 @@ const ElementoApi = (db) => {
           { model: db.Expediente, as: "expediente" },
         ],
       });
-      
+
       res.json(elementos);
     }
   );
@@ -72,17 +72,50 @@ const ElementoApi = (db) => {
     authenticateToken,
     async (req, res) => {
       const data = req.body;
-      const newItem = await Elemento.create({
-        codigo: data.codigo,
-        titulo: data.titulo,
-        ejercicio_fiscal: data.ejercicio_fiscal,
-        soporte: data.soporte,
-        observacion: data.observacion,
-        clasificacion_id: data.clasificacion_id,
-        departamento_id: data.departamento_id,
-      });
 
-      res.json(newItem);
+      try {
+        // 1. Crear el nuevo elemento
+        const newItem = await Elemento.create({
+          codigo: data.codigo,
+          titulo: data.titulo,
+          ejercicio_fiscal: data.ejercicio_fiscal,
+          soporte: data.soporte,
+          observacion: data.observacion,
+          departamento_id: data.departamento_id,
+          clasificacion_id: data.clasificacion_id,
+          expediente_id: data.expediente_id || null,
+        });
+
+        // 2. Validar y agregar contenedores (puede ser uno o varios)
+        if (data.contenedor_id) {
+          const contenedorIds = Array.isArray(data.contenedor_id)
+            ? data.contenedor_id
+            : [data.contenedor_id];
+
+          // Verificar que todos los contenedores existan
+          const contenedores = await db.Contenedor.findAll({
+            where: { id: contenedorIds },
+          });
+
+          if (contenedores.length !== contenedorIds.length) {
+            return res.status(400).json({
+              error: "Uno o más contenedores no existen",
+            });
+          }
+
+          // Asociar los contenedores al nuevo elemento
+          await newItem.addContenedores(contenedores);
+        }
+
+        // 3. Retornar el nuevo elemento
+        res.status(201).json(newItem);
+      } catch (error) {
+        console.error("Error al registrar el elemento:", error);
+        res.status(500).json({
+          error: "No se pudo registrar el elemento",
+          detalle: error.message,
+        });
+      }
     }
   );
 

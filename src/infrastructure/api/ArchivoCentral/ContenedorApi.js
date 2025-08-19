@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authenticateToken from "../../middleware/auth.js";
+import { where } from "sequelize";
 
 const ContenedorApi = (db) => {
   const router = Router();
@@ -10,7 +11,12 @@ const ContenedorApi = (db) => {
     "/api/archivo/contenedor/list",
     authenticateToken,
     async (req, res) => {
+      const { departamento_id } = req.query;
+      const whereClause = departamento_id
+        ? { departamento_id: departamento_id } // Asegúrate de que este campo exista en tu modelo
+        : {};
       const containers = await Contenedor.findAll({
+        where: whereClause,
         include: [
           { model: db.UnidadConservacion, as: "unidad_conservacion" },
           { model: db.departamentos, as: "departamento" },
@@ -58,7 +64,7 @@ const ContenedorApi = (db) => {
     authenticateToken,
     async (req, res) => {
       const data = req.body;
-      const updated = await Contenedor.update(data,{where: {id: data.id}});
+      const updated = await Contenedor.update(data, { where: { id: data.id } });
       res.json(updated);
     }
   );

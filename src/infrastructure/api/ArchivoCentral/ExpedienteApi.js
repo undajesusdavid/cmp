@@ -12,7 +12,13 @@ const ExpedienteApi = (db) => {
     "/api/archivo/expediente/list",
     authenticateToken,
     async (req, res) => {
+      const { departamento_id } = req.query;
+      const whereClause = departamento_id
+        ? { departamento_id: departamento_id } // Asegúrate de que este campo exista en tu modelo
+        : {};
+
       const records = await Expediente.findAll({
+        where: whereClause,
         include: [
           { model: db.ElementoArchivado, as: "elementos" },
           { model: db.departamentos, as: "departamento" },
@@ -48,6 +54,7 @@ const ExpedienteApi = (db) => {
         descripcion: data.descripcion,
         ejercicio_fiscal: data.ejercicio_fiscal,
         departamento_id: data.departamento_id,
+        
       });
       res.json(record);
     }
