@@ -5,7 +5,7 @@ const RelArchivedItem = (db) => {
       db.ElementoArchivado.belongsToMany(db.Contenedor, {
         through: db.ContenedorElemento,
         foreignKey: "elemento_id",
-        as: "contenedor",
+        as: "contenedores",
       });
     } else {
       console.warn(

@@ -28,6 +28,7 @@ const RelContainer = (db) => {
     db.Contenedor.belongsToMany(db.ElementoArchivado, {
       through: db.ContenedorElemento,
       foreignKey: "contenedor_id",
+      as:"elementos",
     });
   } else {
     console.warn(

@@ -16,7 +16,7 @@ const ElementoApi = (db) => {
         include: [
           { model: db.departamentos, as: "departamento" },
           { model: db.Clasificacion, as: "clasificacion" },
-          { model: db.Contenedor, as: "contenedor" },
+          { model: db.Contenedor, as: "contenedores" },
           { model: db.Expediente, as: "expediente" },
         ],
       });
@@ -31,11 +31,11 @@ const ElementoApi = (db) => {
     async (req, res) => {
       //const departamento_id = req.query.departamento_id;
       const elementos = await Elemento.findAll({
-        where: { "$contenedor.id$": null },
+        where: { "$contenedores.id$": null },
         include: [
           { model: db.departamentos, as: "departamento" },
           { model: db.Clasificacion, as: "clasificacion" },
-          { model: db.Contenedor, as: "contenedor" },
+          { model: db.Contenedor, as: "contenedores" },
           { model: db.Expediente, as: "expediente" },
         ],
       });
@@ -55,7 +55,7 @@ const ElementoApi = (db) => {
           include: [
             { model: db.departamentos, as: "departamento" },
             { model: db.Clasificacion, as: "clasificacion" },
-            { model: db.Contenedor, as: "contenedor" },
+            { model: db.Contenedor, as: "contenedores"},
             { model: db.Expediente, as: "expediente" },
           ],
         });
