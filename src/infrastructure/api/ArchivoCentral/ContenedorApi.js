@@ -12,7 +12,7 @@ const ContenedorApi = (db) => {
     authenticateToken,
     async (req, res) => {
       const { departamento_id } = req.query;
-      const whereClause = departamento_id
+      const whereClause = (departamento_id && typeof departamento_id !== 'object')
         ? { departamento_id: departamento_id } // Asegúrate de que este campo exista en tu modelo
         : {};
       const containers = await Contenedor.findAll({
