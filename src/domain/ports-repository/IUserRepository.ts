@@ -1,5 +1,6 @@
-import type * as userDto from "../dto/UserDto.js";
+import type * as userDto from "../dto/user/UserDTO.js";
 
 export default interface IUserRepository {
-    getLoggedUser : (username: string, password: string) => userDto.LoggedUserDto,
+    getByUsername : (username: string) => Promise<userDto.userDTO>;
+    getByEmail : (username: string) => Promise<userDto.userDTO>;
 }

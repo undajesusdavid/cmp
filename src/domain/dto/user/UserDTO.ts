@@ -1,4 +1,4 @@
-export class LoggedUserDto {
+export class userDTO {
 
     private id: string;
     private username: string;
@@ -10,7 +10,19 @@ export class LoggedUserDto {
         this.password = password;
     }
 
-    get() {
+    getId() {
+        return this.id;
+    }
+
+    getUsername() {
+        return this.username;
+    }
+    
+    getPassword() {
+        return this.password;
+    }
+
+    getAll() {
         return {
             id: this.id,
             username: this.username,

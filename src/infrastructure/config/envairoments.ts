@@ -2,6 +2,12 @@ import { configDotenv } from "dotenv";
 
 configDotenv();
 
+export const configJwt = {
+  JWT_SECRET: process.env.JWT_SECRET || "null",
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "1h",
+};
+
+
 export const configCors = {
   origin: process.env.URL_WEB_CLIENT || "http://localhost:5173/",
 };
