@@ -1,7 +1,8 @@
 import { Router } from "express";
 import authenticateToken from "../../middleware/auth.js";
+import { type Sequelize, type Includeable, ForeignKeyConstraintError } from "sequelize";
 
-const ClasificacionApi = (sequelize) => {
+const ClasificacionApi = (sequelize: Sequelize) => {
   const db = sequelize.models;
   const Model = db.Clasificacion;
 
@@ -14,14 +15,18 @@ const ClasificacionApi = (sequelize) => {
       const { departamento_id } = req.query;
 
       const whereClause = departamento_id
-        ? { departamento_id: departamento_id } // Asegúrate de que este campo exista en tu modelo
+        ? { departamento_id: departamento_id }
         : {};
 
       try {
+        if (!Model) {
+          throw new Error("El modelo Clasificacion no existe");
+        }
         const clasificaciones = await Model.findAll({
           where: whereClause,
-          include: [{ model: db.departamentos, as: "departamento" }],
+          include: [{ model: db.departamentos, as: "departamento" }] as Includeable[],
         });
+
         res.json(clasificaciones);
       } catch (error) {
         console.error("Error al obtener clasificaciones:", error);
@@ -35,9 +40,12 @@ const ClasificacionApi = (sequelize) => {
     authenticateToken,
     async (req, res) => {
       const id = req.query.id;
+      if (!Model) {
+        throw new Error("El modelo Clasificacion no existe");
+      }
       const clasificacion = await Model.findOne({
         where: { id },
-        include: [{ model: db.departamentos, as: "departamento" }],
+        include: [{ model: db.departamentos, as: "departamento" }] as Includeable[],
       });
       res.json(clasificacion);
     }
@@ -48,6 +56,9 @@ const ClasificacionApi = (sequelize) => {
     authenticateToken,
     async (req, res) => {
       const data = req.body;
+      if (!Model) {
+        throw new Error("El modelo Clasificacion no existe");
+      }
       const nuevaClasificacion = await Model.create({
         cod_serie: data.cod_serie,
         cod_subserie: data.cod_subserie,
@@ -65,6 +76,9 @@ const ClasificacionApi = (sequelize) => {
     authenticateToken,
     async (req, res) => {
       const data = req.body;
+      if (!Model) {
+        throw new Error("El modelo Clasificacion no existe");
+      }
       const updated = await Model.update(data, { where: { id: data.id } });
       res.json(updated);
     }
@@ -76,13 +90,16 @@ const ClasificacionApi = (sequelize) => {
     async (req, res, next) => {
       const id = req.query.id;
       try {
+        if (!Model) {
+          throw new Error("El modelo Clasificacion no existe");
+        }
         const fieldsDeleted = await Model.destroy({
           where: { id: id },
         });
         res.json(fieldsDeleted);
       } catch (error) {
         //console.error(error.stack)
-        if (error instanceof Sequelize.ForeignKeyConstraintError) {
+        if (error instanceof ForeignKeyConstraintError) {
           next({
             message:
               "No se puede eliminar, la clasificación ya esta asignada a un elemento",

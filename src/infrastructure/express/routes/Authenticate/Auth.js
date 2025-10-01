@@ -3,11 +3,12 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const router = Router();
+
 const AuthApi = (sequelize) => {
   const db = sequelize.models;
   const User = db.usuarios;
 
-  const router = Router();
   router.post("/api/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -28,7 +29,7 @@ const AuthApi = (sequelize) => {
     try {
       // Comparar la contraseña proporcionada con la contraseña hasheada
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log(isMatch);
+      console.log("Login: "+isMatch);
       if (!isMatch) {
         return res.status(400).json({ message: "Credenciales inválidas." });
       }
