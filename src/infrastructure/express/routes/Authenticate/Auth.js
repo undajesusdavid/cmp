@@ -2,7 +2,6 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { AuthController } from "../../../controllers/auth/AuthController.js";
 
-
 const router = Router();
 
 const AuthApi = (sequelize) => {

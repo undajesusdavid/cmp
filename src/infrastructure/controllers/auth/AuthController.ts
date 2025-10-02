@@ -2,11 +2,11 @@ import type { Sequelize } from "sequelize";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { configJwt } from "../../config/envairoments.js";
-import type { UserModel } from "../../sequealize/models/User/User.js";
 import { Controller } from "../Controller.js";
 import UserRepository from "../../sequealize/adapters/UserRepository.js";
-import type IUserRepository from "../../../domain/ports-repository/IUserRepository.js";
-import type { userDTO } from "../../../domain/dto/user/UserDTO.js";
+import type IUserRepository from "../../../app/ports-out/repository/IUserRepository.js";
+import type { UserResponseDTO } from "../../../app/dto-response/UserResponseDTO.js";
+import type { UserCreateDTO } from "../../../app/dto-request/UserCreateDTO.js";
 
 export class AuthController extends Controller {
     private userRepository: IUserRepository
@@ -16,8 +16,14 @@ export class AuthController extends Controller {
         this.userRepository = new UserRepository(sequelize);
     }
 
+    private async hashedPassword(password: string): Promise<string> {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        return hashedPassword;
+    }
+
     async authenticate(username: string, password: string, sucess: (token: string, payload: any) => void) {
-        
+
         //const ModelUser = this.getModel("usuarios");
 
         if (!username || !password) {
@@ -25,8 +31,8 @@ export class AuthController extends Controller {
         }
 
         try {
-            
-            const user : userDTO = await this.userRepository.getByUsername(username);
+
+            const user: UserResponseDTO = await this.userRepository.getByUsername(username);
 
             if (!user.getUsername()) {
                 throw new Error("Credenciales inválidas.");
@@ -61,5 +67,19 @@ export class AuthController extends Controller {
         }
 
     }
+
+    // async register(userDTO: UserCreateDTO) {
+    //     try {
+    //         userDTO.validCredentials();
+    //         const exists = await this.userRepository.userExists(userDTO.getUsername());
+    //         if (exists) {
+    //             throw new Error("El nombre de usuario ya está en uso.");
+    //         }
+            
+
+    //     } catch (error) {
+
+    //     }
+    // }
 
 }

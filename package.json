@@ -22,7 +22,8 @@
     "pg": "8.13.1",
     "pg-hstore": "2.3.4",
     "postgresql": "0.0.1",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "uuid": "13.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
