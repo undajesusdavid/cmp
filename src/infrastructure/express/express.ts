@@ -1,12 +1,15 @@
 import cors from "cors";
 import express from "express";
-import type { Sequelize } from "sequelize";
 import LoadRoutes from "./routes/LoadRoutes.js";
 import MiddlewareErrors from "./middleware/errors.js";
 import { configCors, configServer } from "../config/envairoments.js";
 
+import { container } from "../config/contenedorTsyringe.js";
+import type { Sequelize } from "sequelize";
 
-export default async function AppExpress(database: Sequelize) {
+const database: Sequelize = container.resolve("Sequealize");
+
+export default async function AppExpress() {
     const app = express();
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());

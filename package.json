@@ -22,7 +22,9 @@
     "pg": "8.13.1",
     "pg-hstore": "2.3.4",
     "postgresql": "0.0.1",
-    "sequelize": "^6.37.5",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "6.37.5",
+    "tsyringe": "4.10.0",
     "uuid": "13.0.0"
   },
   "devDependencies": {

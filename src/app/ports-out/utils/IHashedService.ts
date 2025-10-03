@@ -1,4 +1,4 @@
 export default interface IHashedService {
-    hash: (data: string) => Promise<string>;
-    compare: (data: string, hashed: string) => Promise<boolean>;
+    hash: (password: string) => Promise<string>;
+    compare: (passwordPlain: string, passwordHashed: string) => Promise<boolean>;
 }
