@@ -18,7 +18,7 @@ export class AuthController {
             }
             return { token: processLogin.token, payload: processLogin.payload };
         } catch (err) {
-            throw new Error("Error en el servidor.");
+            throw new Error((err as Error).message);
         }
 
     }
